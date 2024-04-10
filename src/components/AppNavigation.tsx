@@ -4,9 +4,9 @@ import { sitemap } from '../sitemap'
 function AppNavigation() {
     return (
         <nav>
-            <ul>
+            <ul className="flex items-center divide-x">
                 {sitemap.map((el) => (
-                    <li key={el.path}>
+                    <li key={el.path} className="px-3 first:pl-0 last:pr-0">
                         <NavLink to={el.path}>{el.label}</NavLink>
                     </li>
                 ))}
