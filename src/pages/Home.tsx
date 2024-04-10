@@ -1,9 +1,9 @@
-import Heading from '../components/ui/Heading'
+import HeroSection from '../features/home/components/HeroSection'
 
 function Home() {
     return (
         <>
-            <Heading type="h1">Home</Heading>
+            <HeroSection />
         </>
     )
 }
