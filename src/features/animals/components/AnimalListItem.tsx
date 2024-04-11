@@ -1,12 +1,12 @@
 import { Link } from 'react-router-dom'
 
 function AnimalListItem({ animal }) {
-    const { name, photos, breeds, age } = animal
+    const { name, photos, breeds, age, gender } = animal
 
     return (
         <li className="overflow-hidden rounded-2xl shadow-md">
-            <Link to="/">
-                <div className="aspect-square">
+            <Link to="/" className="flex h-full flex-col">
+                <div className="aspect-square shrink-0 overflow-hidden">
                     {photos.length > 0 && (
                         <img
                             src={photos[0].small}
@@ -16,16 +16,20 @@ function AnimalListItem({ animal }) {
                     )}
                 </div>
 
-                <div className="h-full bg-white p-4">
-                    <div>{name}</div>
-                    {breeds.secondary ? (
-                        <div>
-                            {breeds.primary} & {breeds.secondary}
-                        </div>
-                    ) : (
-                        <div>{breeds.primary}</div>
-                    )}
-                    <div>{age}</div>
+                <div className="flex grow flex-col items-start bg-white p-4">
+                    <div className="text-xl font-bold">{name}</div>
+                    <div className="grow">
+                        {breeds.secondary ? (
+                            <span>
+                                {breeds.primary} & {breeds.secondary}
+                            </span>
+                        ) : (
+                            <span>{breeds.primary}</span>
+                        )}
+                    </div>
+                    <div className="rounded-full border border-madang-200 bg-madang-100 px-3 py-1">
+                        {age}, {gender}
+                    </div>
                 </div>
             </Link>
         </li>
