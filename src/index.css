@@ -4,6 +4,6 @@
 
 @layer base {
     body {
-        @apply text-madang-950 bg-white;
+        @apply bg-slate-50;
     }
 }

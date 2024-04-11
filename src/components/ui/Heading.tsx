@@ -8,7 +8,7 @@ interface HeadingProps {
 
 function Heading({ type, children, className = '' }: HeadingProps) {
     const types = {
-        h1: 'text-5xl font-extrabold',
+        h1: 'mb-4 text-5xl font-extrabold',
         h2: 'text-4xl font-bold',
         h3: 'text-3xl font-bold',
         h4: 'text-2xl font-bold',

@@ -8,10 +8,10 @@ function AppLayout() {
     const isLoading = navigation.state === 'loading'
 
     return (
-        <div className="container mx-auto px-4">
-            <div className="flex min-h-screen flex-col">
-                <AppHeader />
-                <main className="relative flex-grow">
+        <div className="flex min-h-screen flex-col">
+            <AppHeader />
+            <main className="relative flex-grow">
+                <div className="container mx-auto px-4">
                     {isLoading ? (
                         <div className="absolute inset-0 flex items-center justify-center">
                             <Spinner />
@@ -19,8 +19,8 @@ function AppLayout() {
                     ) : (
                         <Outlet />
                     )}
-                </main>
-            </div>
+                </div>
+            </main>
         </div>
     )
 }
