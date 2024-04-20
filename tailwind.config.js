@@ -19,6 +19,7 @@ export default {
                 },
             },
             borderWidth: {
+                3: '3px',
                 5: '5px',
             },
         },

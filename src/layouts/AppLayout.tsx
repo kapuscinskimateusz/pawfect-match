@@ -1,6 +1,6 @@
 import { Outlet, useNavigation } from 'react-router-dom'
-import AppHeader from './AppHeader'
-import Spinner from './ui/Spinner'
+import AppHeader from '../components/AppHeader'
+import Spinner from '../components/ui/Spinner'
 
 function AppLayout() {
     const navigation = useNavigation()

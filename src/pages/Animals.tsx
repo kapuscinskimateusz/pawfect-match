@@ -1,18 +1,17 @@
-import { useLoaderData } from 'react-router-dom'
 import Heading from '../components/ui/Heading'
-import Card from '../components/ui/Card'
 import AnimalList from '../features/animals/components/AnimalList'
+import AnimalListOperations from '../features/animals/components/AnimalListOperations'
 
 function Animals() {
-    const { animals } = useLoaderData()
-
     return (
         <>
             <Heading type="h1">Animals</Heading>
             <div className="grid grid-cols-3 gap-4">
-                <Card>Filters</Card>
+                <div>
+                    <AnimalListOperations />
+                </div>
                 <div className="col-span-2">
-                    <AnimalList animals={animals} />
+                    <AnimalList />
                 </div>
             </div>
         </>

@@ -1,8 +1,11 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
-import { getAnimals } from './services/apiPetfinder'
-import AppLayout from './components/AppLayout'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import AppLayout from './layouts/AppLayout'
 import Home from './pages/Home'
 import Animals from './pages/Animals'
+
+const queryClient = new QueryClient()
 
 const router = createBrowserRouter([
     {
@@ -15,14 +18,18 @@ const router = createBrowserRouter([
             {
                 path: '/animals',
                 element: <Animals />,
-                loader: async () => getAnimals(),
             },
         ],
     },
 ])
 
 function App() {
-    return <RouterProvider router={router} />
+    return (
+        <QueryClientProvider client={queryClient}>
+            <RouterProvider router={router} />
+            <ReactQueryDevtools initialIsOpen={false} />
+        </QueryClientProvider>
+    )
 }
 
 export default App
