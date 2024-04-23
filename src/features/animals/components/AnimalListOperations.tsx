@@ -1,14 +1,17 @@
-import Select from '../../../components/form/Select'
+import FilterSelect from '../../../components/ui/FilterSelect'
 
 const types = [
-    { value: '', label: 'All animals' },
-    { value: 'cat', label: 'Cats' },
     { value: 'dog', label: 'Dogs' },
+    { value: 'cat', label: 'Cats' },
+    { value: 'small-furry', label: 'Small & Furry' },
+    { value: 'bird', label: 'Birds' },
+    { value: 'scales-fins-other', label: 'Scales, Fins & Other' },
+    { value: 'barnyard', label: 'Barnyard' },
     { value: 'rabbit', label: 'Rabbits' },
+    { value: 'horse', label: 'Horses' },
 ]
 
 const breeds = [
-    { value: '', label: 'All breeds' },
     { value: 'pug', label: 'Pug' },
     { value: 'samoyed', label: 'Samoyed' },
 ]
@@ -16,8 +19,13 @@ const breeds = [
 function AnimalListOperations() {
     return (
         <div className="flex flex-col gap-4">
-            <Select options={types} />
-            <Select options={breeds} isMulti isSearchable />
+            <FilterSelect filterField="type" options={types} />
+            <FilterSelect
+                filterField="breed"
+                options={breeds}
+                isMulti
+                isSearchable
+            />
         </div>
     )
 }

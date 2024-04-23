@@ -5,11 +5,13 @@ import { getAnimals } from '../../../services/apiPetfinder'
 export function useAnimals() {
     const [searchParams] = useSearchParams()
 
-    const page = searchParams.get('page') ? Number(searchParams.get('page')) : 1
+    const type = searchParams.get('type')
+    const breed = searchParams.getAll('breed')
+    const page = searchParams.get('page')
 
     const { data, isLoading } = useQuery({
-        queryKey: ['animals', page],
-        queryFn: () => getAnimals({ page }),
+        queryKey: ['animals', type, breed, page],
+        queryFn: () => getAnimals({ type, breed, page }),
         staleTime: 1000 * 60 * 2,
     })
 

@@ -1,4 +1,6 @@
 import { NavLink } from 'react-router-dom'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faHeart } from '@fortawesome/free-solid-svg-icons/faHeart'
 import { sitemap } from '../sitemap'
 import Logo from './ui/Logo'
 import Modal from './ui/Modal'
@@ -17,12 +19,18 @@ function AppNavigation() {
                 ))}
             </ul>
 
-            <Modal>
-                <Modal.Open>
-                    <Button>Sign in</Button>
-                </Modal.Open>
-                <Modal.Window>test</Modal.Window>
-            </Modal>
+            <div className="flex items-center gap-2">
+                <Button isDisabled>
+                    <FontAwesomeIcon icon={faHeart} />
+                </Button>
+
+                <Modal>
+                    <Modal.Open>
+                        <Button>Sign in</Button>
+                    </Modal.Open>
+                    <Modal.Window>test</Modal.Window>
+                </Modal>
+            </div>
         </nav>
     )
 }

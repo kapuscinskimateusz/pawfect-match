@@ -7,26 +7,37 @@ import { useOutsideClick } from '../../hooks/useOutsideClick'
 import Input from './Input'
 import Alert from '../ui/Alert'
 
-type Option = { value: string; label: string }
+export type Option = { value: string; label: string }
 
-type SelectedValue = Option | Option[] | null
+export type SelectValue = Option | Option[]
 
 interface SelectProps {
     options: Option[]
+    value?: SelectValue
+    placeholder?: string
     isMulti?: boolean
     isSearchable?: boolean
+    onChange?: (newValue: SelectValue) => void
 }
 
 function Select(props: SelectProps) {
-    const { options, isMulti = false, isSearchable = false } = props
+    const {
+        options,
+        value,
+        placeholder = '',
+        isMulti = false,
+        isSearchable = false,
+        onChange,
+    } = props
 
-    const [selectedValue, setSelectedValue] = useState<SelectedValue>(
-        isMulti ? [] : null
+    const [selectedValue, setSelectedValue] = useState<SelectValue | null>(
+        value || (isMulti ? [] : null)
     )
     const [searchValue, setSearchValue] = useState('')
+
     const { isOpen, handleOpen, handleClose } = useOpenClose(false)
 
-    const selectRef = useOutsideClick(handleClose)
+    const menuWrapperRef = useOutsideClick(handleClose)
     const searchRef = useRef<HTMLInputElement | null>(null)
 
     useEffect(() => {
@@ -38,9 +49,15 @@ function Select(props: SelectProps) {
     }, [isOpen])
 
     function handleSelect(option: Option) {
-        setSelectedValue((selectedValue) =>
-            isMulti ? [...(selectedValue as Option[]), option] : option
-        )
+        const newValue = isMulti
+            ? [...(selectedValue as Option[]), option]
+            : option
+
+        setSelectedValue(newValue)
+
+        if (onChange !== undefined) {
+            onChange(newValue)
+        }
 
         handleClose()
     }
@@ -51,13 +68,17 @@ function Select(props: SelectProps) {
     ) {
         event.stopPropagation()
 
-        setSelectedValue((selectedValue) =>
-            isMulti
-                ? (selectedValue as Option[]).filter(
-                      (o) => o.value !== option.value
-                  )
-                : null
+        if (!isMulti) return
+
+        const newValue = (selectedValue as Option[]).filter(
+            (o) => o.value !== option.value
         )
+
+        setSelectedValue(newValue)
+
+        if (onChange !== undefined) {
+            onChange(newValue)
+        }
     }
 
     function handleSearch(value: string) {
@@ -69,12 +90,12 @@ function Select(props: SelectProps) {
             return (
                 (selectedValue as Option[]).findIndex(
                     (o) => o.value === option.value
-                ) >= 0
+                ) > -1
             )
         }
 
         if (selectedValue === null) {
-            return false
+            return placeholder
         }
 
         return (selectedValue as Option).value === option.value
@@ -85,7 +106,7 @@ function Select(props: SelectProps) {
             selectedValue === null ||
             (selectedValue as Option[]).length === 0
         ) {
-            return ''
+            return placeholder
         }
 
         if (isMulti) {
@@ -96,9 +117,7 @@ function Select(props: SelectProps) {
                             key={option.value}
                             className="flex items-center overflow-hidden rounded bg-madang-500"
                         >
-                            <div className="cursor-default px-2">
-                                {option.label}
-                            </div>
+                            <div className="px-2">{option.label}</div>
                             <button
                                 type="button"
                                 className="flex h-6 w-6 items-center justify-center transition-colors hover:bg-madang-600"
@@ -126,9 +145,9 @@ function Select(props: SelectProps) {
     }
 
     return (
-        <div ref={selectRef} className="relative">
+        <div className="relative">
             <div
-                className="flex h-10 items-center justify-between overflow-hidden rounded-md border bg-white transition-colors hover:border-madang-700"
+                className="flex h-10 items-center justify-between rounded-md border bg-white transition-colors hover:border-madang-700"
                 onClick={handleOpen}
             >
                 <div className="px-2.5">{getDisplay()}</div>
@@ -138,7 +157,10 @@ function Select(props: SelectProps) {
             </div>
 
             {isOpen && (
-                <div className="absolute inset-x-0 top-full z-10 mt-1 overflow-hidden rounded-md bg-white shadow-md">
+                <div
+                    ref={menuWrapperRef}
+                    className="absolute inset-x-0 top-full z-10 mt-1 overflow-hidden rounded-md bg-white shadow-md"
+                >
                     {isSearchable && (
                         <div className="p-2.5 shadow">
                             <Input
@@ -149,7 +171,7 @@ function Select(props: SelectProps) {
                         </div>
                     )}
 
-                    {getOptions().length !== 0 ? (
+                    {getOptions().length > 0 ? (
                         <ul className="max-h-80 overflow-y-auto py-1">
                             {getOptions().map((option) => (
                                 <li key={option.value}>
