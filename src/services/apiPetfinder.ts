@@ -13,8 +13,12 @@ export async function getToken() {
     return data
 }
 
-export async function getAnimals() {
-    const { data } = await axios.get('/animals')
+export async function getAnimals({ page }: { page: number }) {
+    const { data } = await axios.get('/animals', {
+        params: {
+            page,
+        },
+    })
 
     return data
 }

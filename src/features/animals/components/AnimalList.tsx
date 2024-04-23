@@ -1,5 +1,6 @@
-import Spinner from '../../../components/ui/Spinner'
 import { useAnimals } from '../hooks/useAnimals'
+import Spinner from '../../../components/ui/Spinner'
+import Pagination from '../../../components/ui/Pagination'
 import AnimalListItem from './AnimalListItem'
 
 function AnimalList() {
@@ -7,14 +8,18 @@ function AnimalList() {
 
     if (isLoading) return <Spinner />
 
-    const { animals } = data
+    const { animals, pagination } = data
 
     return (
-        <ul className="grid grid-cols-4 items-start gap-4">
-            {animals.map((animal) => (
-                <AnimalListItem key={animal.id} animal={animal} />
-            ))}
-        </ul>
+        <div className="flex flex-col gap-4">
+            <ul className="grid grid-cols-4 items-start gap-4">
+                {animals.map((animal) => (
+                    <AnimalListItem key={animal.id} animal={animal} />
+                ))}
+            </ul>
+
+            <Pagination {...pagination} />
+        </div>
     )
 }
 
