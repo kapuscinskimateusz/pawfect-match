@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart } from '@fortawesome/free-solid-svg-icons/faHeart'
 import { sitemap } from '../sitemap'
@@ -9,7 +9,9 @@ import Button from './ui/Button'
 function AppNavigation() {
     return (
         <nav className="flex items-center justify-between">
-            <Logo />
+            <Link to="/">
+                <Logo />
+            </Link>
 
             <ul className="flex items-center divide-x">
                 {sitemap.map((el) => (
@@ -19,7 +21,7 @@ function AppNavigation() {
                 ))}
             </ul>
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-3">
                 <Button isDisabled>
                     <FontAwesomeIcon icon={faHeart} />
                 </Button>

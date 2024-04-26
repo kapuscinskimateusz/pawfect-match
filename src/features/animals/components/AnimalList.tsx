@@ -12,7 +12,7 @@ function AnimalList() {
 
     return (
         <div className="flex flex-col gap-4">
-            <ul className="grid grid-cols-4 items-start gap-4">
+            <ul className="grid grid-cols-4 gap-4">
                 {animals.map((animal) => (
                     <AnimalListItem key={animal.id} animal={animal} />
                 ))}

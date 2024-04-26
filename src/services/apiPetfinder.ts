@@ -13,11 +13,13 @@ export async function getToken() {
     return data
 }
 
-export async function getAnimals({ type, breed, page }) {
+export async function getAnimals(
+    filters: Record<string, string | null | string[]>,
+    page: number
+) {
     const { data } = await axios.get('/animals', {
         params: {
-            type,
-            breed,
+            ...filters,
             page,
         },
     })

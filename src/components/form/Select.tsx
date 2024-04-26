@@ -7,11 +7,11 @@ import { useOutsideClick } from '../../hooks/useOutsideClick'
 import Input from './Input'
 import Alert from '../ui/Alert'
 
-export type Option = { value: string; label: string }
+type Option = { value: string; label: string }
 
 export type SelectValue = Option | Option[]
 
-interface SelectProps {
+export interface SelectProps {
     options: Option[]
     value?: SelectValue
     placeholder?: string
@@ -30,7 +30,7 @@ function Select(props: SelectProps) {
         onChange,
     } = props
 
-    const [selectedValue, setSelectedValue] = useState<SelectValue | null>(
+    const [selectedValue, setSelectedValue] = useState(
         value || (isMulti ? [] : null)
     )
     const [searchValue, setSearchValue] = useState('')
@@ -95,7 +95,7 @@ function Select(props: SelectProps) {
         }
 
         if (selectedValue === null) {
-            return placeholder
+            return false
         }
 
         return (selectedValue as Option).value === option.value
