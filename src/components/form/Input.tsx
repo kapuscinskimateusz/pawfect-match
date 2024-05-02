@@ -1,26 +1,25 @@
 import { forwardRef } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSearch } from '@fortawesome/free-solid-svg-icons/faSearch'
 
 type Ref = HTMLInputElement
 
 interface InputProps {
-    type: 'text'
+    type?: string
+    icon?: JSX.Element
     onChange?: (value: string) => void
 }
 
 const Input = forwardRef<Ref, InputProps>(function Input(props, ref) {
-    const { type, onChange = null } = props
+    const { type = 'text', icon, onChange } = props
 
     function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
-        if (!onChange) return
+        if (onChange === undefined) return
 
         onChange(event.target.value)
     }
 
     return (
-        <div className="flex h-10 items-center overflow-hidden rounded-md border bg-white transition-colors hover:border-madang-700">
-            <div className="grow px-2.5">
+        <div className="flex items-center justify-between overflow-hidden rounded-md border border-gray-300 bg-white transition-colors hover:border-madang-700">
+            <div className="flex-grow p-2.5">
                 <input
                     type={type}
                     ref={ref}
@@ -28,9 +27,14 @@ const Input = forwardRef<Ref, InputProps>(function Input(props, ref) {
                     onChange={handleChange}
                 />
             </div>
-            <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center">
-                <FontAwesomeIcon icon={faSearch} />
-            </div>
+
+            {icon && (
+                <div className="p-2.5">
+                    <div className="flex h-6 w-6 items-center justify-center text-gray-300">
+                        {icon}
+                    </div>
+                </div>
+            )}
         </div>
     )
 })

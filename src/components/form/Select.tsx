@@ -1,7 +1,8 @@
-import { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons/faChevronDown'
 import { faClose } from '@fortawesome/free-solid-svg-icons/faClose'
+import { faSearch } from '@fortawesome/free-solid-svg-icons/faSearch'
 import { useOpenClose } from '../../hooks/useOpenClose'
 import { useOutsideClick } from '../../hooks/useOutsideClick'
 import Input from './Input'
@@ -39,6 +40,10 @@ function Select(props: SelectProps) {
 
     const menuWrapperRef = useOutsideClick(handleClose)
     const searchRef = useRef<HTMLInputElement | null>(null)
+
+    useEffect(() => {
+        setSelectedValue(value || (isMulti ? [] : null))
+    }, [value, isMulti])
 
     useEffect(() => {
         setSearchValue('')
@@ -81,6 +86,22 @@ function Select(props: SelectProps) {
         }
     }
 
+    function handleRemoveAll(
+        event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    ) {
+        event.stopPropagation()
+
+        if (!isMulti) return
+
+        const newValue: Option[] = []
+
+        setSelectedValue(newValue)
+
+        if (onChange !== undefined) {
+            onChange(newValue)
+        }
+    }
+
     function handleSearch(value: string) {
         setSearchValue(value)
     }
@@ -106,21 +127,27 @@ function Select(props: SelectProps) {
             selectedValue === null ||
             (selectedValue as Option[]).length === 0
         ) {
-            return placeholder
+            return (
+                <span className="cursor-default text-gray-300">
+                    {placeholder}
+                </span>
+            )
         }
 
         if (isMulti) {
             return (
-                <div className="flex items-center gap-1">
+                <div className="flex flex-wrap gap-1.5">
                     {(selectedValue as Option[]).map((option) => (
                         <div
                             key={option.value}
-                            className="flex items-center overflow-hidden rounded bg-madang-500"
+                            className="flex items-center overflow-hidden rounded-md bg-madang-500 text-sm text-madang-950"
                         >
-                            <div className="px-2">{option.label}</div>
+                            <div className="cursor-default px-2.5">
+                                {option.label}
+                            </div>
                             <button
                                 type="button"
-                                className="flex h-6 w-6 items-center justify-center transition-colors hover:bg-madang-600"
+                                className="flex h-6 w-6 cursor-default items-center justify-center transition-colors hover:bg-madang-600"
                                 onClick={(event) => handleRemove(event, option)}
                             >
                                 <FontAwesomeIcon icon={faClose} />
@@ -131,7 +158,11 @@ function Select(props: SelectProps) {
             )
         }
 
-        return (selectedValue as Option).label
+        return (
+            <span className="cursor-default">
+                {(selectedValue as Option).label}
+            </span>
+        )
     }
 
     function getOptions() {
@@ -147,12 +178,47 @@ function Select(props: SelectProps) {
     return (
         <div className="relative">
             <div
-                className="flex h-10 items-center justify-between rounded-md border bg-white transition-colors hover:border-madang-700"
+                className={[
+                    'flex justify-between overflow-hidden rounded-md border bg-white transition-colors',
+                    isOpen
+                        ? 'border-madang-800 ring-1 ring-madang-800'
+                        : 'border-gray-300 hover:border-madang-700',
+                ].join(' ')}
                 onClick={handleOpen}
             >
-                <div className="px-2.5">{getDisplay()}</div>
-                <div className="flex h-10 w-10 items-center justify-center">
-                    <FontAwesomeIcon icon={faChevronDown} />
+                <div className="flex-grow p-2.5">{getDisplay()}</div>
+
+                <div className="flex items-center">
+                    {isMulti && (
+                        <button
+                            type="button"
+                            className="group cursor-default p-2.5"
+                            onClick={(event) => handleRemoveAll(event)}
+                        >
+                            <div className="flex h-6 w-6 items-center justify-center">
+                                <FontAwesomeIcon
+                                    icon={faClose}
+                                    className="text-gray-300 transition-colors group-hover:text-madang-700"
+                                />
+                            </div>
+                        </button>
+                    )}
+
+                    <div className="h-6 w-px bg-gray-300"></div>
+
+                    <div className="group p-2.5">
+                        <div className="flex h-6 w-6 items-center justify-center">
+                            <FontAwesomeIcon
+                                icon={faChevronDown}
+                                className={[
+                                    'transition-colors',
+                                    isOpen
+                                        ? 'text-madang-800'
+                                        : 'text-gray-300 group-hover:text-madang-700',
+                                ].join(' ')}
+                            />
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -164,8 +230,8 @@ function Select(props: SelectProps) {
                     {isSearchable && (
                         <div className="p-2.5 shadow">
                             <Input
-                                type="text"
                                 ref={searchRef}
+                                icon={<FontAwesomeIcon icon={faSearch} />}
                                 onChange={handleSearch}
                             />
                         </div>
@@ -178,7 +244,7 @@ function Select(props: SelectProps) {
                                     <button
                                         type="button"
                                         className={[
-                                            'h-10 w-full px-2.5 text-left transition-colors',
+                                            'w-full p-2.5 text-left transition-colors',
                                             isSelected(option)
                                                 ? 'bg-madang-700 text-madang-50'
                                                 : 'hover:bg-madang-600 hover:text-madang-950',

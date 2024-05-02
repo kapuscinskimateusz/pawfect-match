@@ -26,3 +26,9 @@ export async function getAnimals(
 
     return data
 }
+
+export async function getAnimalBreeds(type: string) {
+    const { data } = await axios.get(`/types/${type}/breeds`)
+
+    return data
+}

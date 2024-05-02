@@ -6,10 +6,11 @@ import Select, {
 
 interface FilterSelectProps extends Omit<SelectProps, 'value' | 'onChange'> {
     filterField: string
+    onChange?: (searchParams: URLSearchParams) => void
 }
 
 function FilterSelect(props: FilterSelectProps) {
-    const { filterField, ...selectProps } = props
+    const { filterField, onChange, ...selectProps } = props
 
     const [searchParams, setSearchParams] = useSearchParams()
 
@@ -33,6 +34,10 @@ function FilterSelect(props: FilterSelectProps) {
             }
         } else {
             searchParams.set(filterField, newValue.value)
+        }
+
+        if (onChange !== undefined) {
+            onChange(searchParams)
         }
 
         setSearchParams(searchParams)
