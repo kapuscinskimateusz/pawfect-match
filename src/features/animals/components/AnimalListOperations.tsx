@@ -1,11 +1,12 @@
-import { age, sizes, gender } from '../../../data/animals'
-import FilterType from './FilterType'
+import { age, gender, sizes } from '../../../data/animals'
+import Filters from './Filters'
 import FilterBreed from './FilterBreed'
+import FilterType from './FilterType'
 import FilterSelect from './FilterSelect'
 
 function AnimalListOperations() {
     return (
-        <div className="flex flex-col gap-3">
+        <Filters>
             <FilterType />
             <FilterBreed />
             <FilterSelect
@@ -26,7 +27,7 @@ function AnimalListOperations() {
                 placeholder="Select gender..."
                 isMulti
             />
-        </div>
+        </Filters>
     )
 }
 

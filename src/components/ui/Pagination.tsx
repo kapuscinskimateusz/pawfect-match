@@ -39,30 +39,40 @@ function Pagination(props: PaginationProps) {
     }
 
     return (
-        <div className="flex items-center justify-between">
-            <p>
-                Showing <span className="font-bold">{from}</span> to{' '}
-                <span className="font-bold">{to}</span> of{' '}
-                <span className="font-bold">{totalCount}</span> results
-            </p>
+        <>
+            {totalPages > 1 && (
+                <div className="flex items-center justify-between">
+                    <p>
+                        Showing <span className="font-bold">{from}</span> to{' '}
+                        <span className="font-bold">{to}</span> of{' '}
+                        <span className="font-bold">{totalCount}</span> results
+                    </p>
 
-            <div className="flex items-center gap-2">
-                <Button
-                    isDisabled={currentPage === 1}
-                    onClick={handlePrevClick}
-                >
-                    <FontAwesomeIcon icon={faChevronLeft} className="mr-2" />
-                    <span>Previous</span>
-                </Button>
-                <Button
-                    isDisabled={currentPage === totalPages}
-                    onClick={handleNextClick}
-                >
-                    <span>Next</span>
-                    <FontAwesomeIcon icon={faChevronRight} className="ml-2" />
-                </Button>
-            </div>
-        </div>
+                    <div className="flex items-center gap-2">
+                        <Button
+                            isDisabled={currentPage === 1}
+                            onClick={handlePrevClick}
+                        >
+                            <FontAwesomeIcon
+                                icon={faChevronLeft}
+                                className="mr-2"
+                            />
+                            <span>Previous</span>
+                        </Button>
+                        <Button
+                            isDisabled={currentPage === totalPages}
+                            onClick={handleNextClick}
+                        >
+                            <span>Next</span>
+                            <FontAwesomeIcon
+                                icon={faChevronRight}
+                                className="ml-2"
+                            />
+                        </Button>
+                    </div>
+                </div>
+            )}
+        </>
     )
 }
 

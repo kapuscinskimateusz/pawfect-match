@@ -7,6 +7,7 @@ import { useOpenClose } from '../../hooks/useOpenClose'
 import { useOutsideClick } from '../../hooks/useOutsideClick'
 import Input from './Input'
 import Alert from '../ui/Alert'
+import Spinner from '../ui/Spinner'
 
 type Option = { value: string; label: string }
 
@@ -18,6 +19,7 @@ export interface SelectProps {
     placeholder?: string
     isMulti?: boolean
     isSearchable?: boolean
+    isLoading?: boolean
     onChange?: (newValue: SelectValue) => void
 }
 
@@ -28,6 +30,7 @@ function Select(props: SelectProps) {
         placeholder = '',
         isMulti = false,
         isSearchable = false,
+        isLoading = false,
         onChange,
     } = props
 
@@ -189,7 +192,15 @@ function Select(props: SelectProps) {
                 <div className="flex-grow p-2.5">{getDisplay()}</div>
 
                 <div className="flex items-center">
-                    {isMulti && (
+                    {isLoading && (
+                        <div className="p-2.5">
+                            <div className="flex h-6 w-6 items-center justify-center">
+                                <Spinner size="sm" color="secondary" />
+                            </div>
+                        </div>
+                    )}
+
+                    {!isLoading && isMulti && (
                         <button
                             type="button"
                             className="group cursor-default p-2.5"

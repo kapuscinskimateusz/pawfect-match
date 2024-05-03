@@ -4,7 +4,7 @@ export const sitemap = [
         label: 'Home',
     },
     {
-        path: '/animals',
+        path: '/animals?type=dog',
         label: 'Animals',
     },
 ]
