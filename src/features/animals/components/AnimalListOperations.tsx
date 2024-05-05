@@ -1,7 +1,7 @@
 import { age, gender, sizes } from '../../../data/animals'
 import Filters from './Filters'
-import FilterBreed from './FilterBreed'
 import FilterType from './FilterType'
+import FilterBreed from './FilterBreed'
 import FilterSelect from './FilterSelect'
 
 function AnimalListOperations() {

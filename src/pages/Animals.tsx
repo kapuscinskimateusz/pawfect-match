@@ -1,11 +1,12 @@
-import Heading from '../components/ui/Heading'
+import Banner from '../features/animals/components/Banner'
 import AnimalList from '../features/animals/components/AnimalList'
 import AnimalListOperations from '../features/animals/components/AnimalListOperations'
 
 function Animals() {
     return (
         <>
-            <Heading type="h1">Animals</Heading>
+            <Banner />
+
             <div className="grid grid-cols-3 gap-4">
                 <div>
                     <AnimalListOperations />
