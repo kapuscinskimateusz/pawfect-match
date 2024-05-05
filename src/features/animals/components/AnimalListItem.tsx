@@ -1,15 +1,17 @@
 import { Link } from 'react-router-dom'
-import LazyImage from '../../../components/ui/LazyImage'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPaw } from '@fortawesome/free-solid-svg-icons/faPaw'
+import { faMars } from '@fortawesome/free-solid-svg-icons/faMars'
+import { faVenus } from '@fortawesome/free-solid-svg-icons/faVenus'
+import LazyImage from '../../../components/ui/LazyImage'
 
 function AnimalListItem({ animal }) {
-    const { name, photos, breeds, age, gender } = animal
+    const { name, photos, breeds, gender } = animal
 
     return (
-        <li className="overflow-hidden rounded-md shadow-md">
-            <Link to="/">
-                <div className="flex aspect-square items-center justify-center bg-madang-200">
+        <li className="overflow-hidden rounded-3xl shadow-md">
+            <Link to="/" className="flex h-full flex-col">
+                <div className="flex aspect-square flex-shrink-0 items-center justify-center overflow-hidden bg-gray-300">
                     {photos.length > 0 ? (
                         <LazyImage
                             src={photos[0].full}
@@ -17,23 +19,39 @@ function AnimalListItem({ animal }) {
                             className="h-full w-full object-cover"
                         />
                     ) : (
-                        <FontAwesomeIcon
-                            icon={faPaw}
-                            className="h-6 w-6 text-madang-600"
-                        />
+                        <FontAwesomeIcon icon={faPaw} size="xl" />
                     )}
                 </div>
 
-                <div className="p-2.5">
-                    <div className="text-lg font-bold">{name}</div>
-                    <p>
-                        {breeds.primary +
-                            `${breeds.secondary ? ` & ${breeds.secondary}` : ''}`}
-                    </p>
+                <div className="flex flex-grow items-center justify-center bg-white p-4">
+                    <div className="text-center">
+                        <div>
+                            <span className="font-bold">{name}</span>
 
-                    <div className="inline-flex items-center divide-x divide-madang-200 rounded-full border border-madang-200 bg-madang-100 px-2.5 py-1">
-                        <span className="pr-2">{age}</span>
-                        <span className="pl-2">{gender}</span>
+                            <span className="ml-2">
+                                {gender === 'Male' ? (
+                                    <FontAwesomeIcon
+                                        icon={faMars}
+                                        className="text-blue-500"
+                                    />
+                                ) : (
+                                    <FontAwesomeIcon
+                                        icon={faVenus}
+                                        className="text-pink-500"
+                                    />
+                                )}
+                            </span>
+                        </div>
+
+                        <div className="text-sm">
+                            {breeds.secondary ? (
+                                <span>
+                                    {breeds.primary} & {breeds.secondary}
+                                </span>
+                            ) : (
+                                <span>{breeds.primary}</span>
+                            )}
+                        </div>
                     </div>
                 </div>
             </Link>

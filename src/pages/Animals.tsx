@@ -4,10 +4,10 @@ import AnimalListOperations from '../features/animals/components/AnimalListOpera
 
 function Animals() {
     return (
-        <>
+        <div className="grid gap-8">
             <Banner />
 
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-3 gap-8 px-4">
                 <div>
                     <AnimalListOperations />
                 </div>
@@ -15,7 +15,7 @@ function Animals() {
                     <AnimalList />
                 </div>
             </div>
-        </>
+        </div>
     )
 }
 
