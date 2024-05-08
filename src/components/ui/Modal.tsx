@@ -10,59 +10,76 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faClose } from '@fortawesome/free-solid-svg-icons/faClose'
 import { useOpenClose } from '../../hooks/useOpenClose'
 import { useOutsideClick } from '../../hooks/useOutsideClick'
-import Button from './Button'
+import IconButton from './IconButton'
 
 interface ModalContextValue {
     isOpen: boolean
     handleOpen: () => void
     handleClose: () => void
+    className: string
 }
 
 const ModalContext = createContext<ModalContextValue | null>(null)
 
-function Modal({ children }: { children: ReactNode }) {
+function Modal(props: { children: ReactNode; className?: string }) {
+    const { children, className = '' } = props
+
     const { isOpen, handleOpen, handleClose } = useOpenClose(false)
 
     return (
-        <ModalContext.Provider value={{ isOpen, handleOpen, handleClose }}>
-            {children}
+        <ModalContext.Provider
+            value={{ isOpen, handleOpen, handleClose, className }}
+        >
+            <div className={className}>{children}</div>
         </ModalContext.Provider>
     )
 }
 
-function Open({ children }: { children: ReactElement }) {
+function Open(props: { children: ReactElement }) {
+    const { children } = props
+
     const modalContext = useContext(ModalContext)
     if (!modalContext) {
         throw new Error('Open must be used in the ModalContext.Provider.')
     }
+
     const { handleOpen } = modalContext
 
     return cloneElement(children, { onClick: handleOpen })
 }
 
-function Window({ children }: { children: ReactNode }) {
+function Window(props: { children: ReactNode }) {
+    const { children } = props
+
     const modalContext = useContext(ModalContext)
     if (!modalContext) {
         throw new Error('Window must be used in the ModalContext.Provider.')
     }
-    const { isOpen, handleClose } = modalContext
+
+    const { isOpen, handleClose, className } = modalContext
 
     const windowRef = useOutsideClick(handleClose)
 
     return (
         isOpen &&
         createPortal(
-            <div className="fixed inset-0 backdrop-blur-sm backdrop-brightness-50">
+            <div
+                className={[
+                    'fixed inset-0 py-4 backdrop-blur-sm backdrop-brightness-50',
+                    className,
+                ].join(' ')}
+            >
                 <div
                     ref={windowRef}
-                    className="mx-auto mt-24 max-w-md rounded-md bg-white p-4"
+                    className="mx-auto max-w-md rounded-md bg-white"
                 >
-                    <div className="text-right">
-                        <Button onClick={handleClose}>
+                    <div className="flex h-20 items-center justify-end px-4 shadow">
+                        <IconButton onClick={handleClose}>
                             <FontAwesomeIcon icon={faClose} />
-                        </Button>
+                        </IconButton>
                     </div>
-                    <div>{children}</div>
+
+                    <div className="p-4">{children}</div>
                 </div>
             </div>,
             document.body

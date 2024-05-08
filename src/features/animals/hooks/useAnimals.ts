@@ -15,11 +15,11 @@ export function useAnimals() {
 
     const page = searchParams.get('page') ? Number(searchParams.get('page')) : 1
 
-    const { data, isLoading } = useQuery({
+    const { data: animals, isLoading } = useQuery({
         queryKey: ['animals', filters, { page }],
         queryFn: () => getAnimals(filters, page),
         staleTime: 1000 * 60 * 2,
     })
 
-    return { data, isLoading }
+    return { animals, isLoading }
 }

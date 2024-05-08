@@ -3,9 +3,9 @@ import { faPaw } from '@fortawesome/free-solid-svg-icons/faPaw'
 
 function Logo() {
     return (
-        <div className="flex items-center gap-2">
-            <FontAwesomeIcon icon={faPaw} />
-            <span className="font-bold">PawfectMatch</span>
+        <div>
+            <FontAwesomeIcon icon={faPaw} size="xl" />
+            <span className="ml-2 font-semibold">PawfectMatch</span>
         </div>
     )
 }
