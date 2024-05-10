@@ -1,13 +1,15 @@
-import { ReactNode } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import Heading from '../../../components/ui/Heading'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faFilter } from '@fortawesome/free-solid-svg-icons/faFilter'
+import { age, gender, sizes } from '../../../data/animals'
+import Modal from '../../../components/ui/Modal'
 import Button from '../../../components/ui/Button'
+import FormControl from '../../../components/form/FormControl'
+import FilterType from './FilterType'
+import FilterBreed from './FilterBreed'
+import FilterSelect from './FilterSelect'
 
-interface FiltersProps {
-    children: ReactNode
-}
-
-function Filters({ children }: FiltersProps) {
+function Filters() {
     const [, setSearchParams] = useSearchParams()
 
     function handleClearAll() {
@@ -15,16 +17,65 @@ function Filters({ children }: FiltersProps) {
     }
 
     return (
-        <div className="flex flex-col gap-4">
-            <div className="flex items-center justify-between">
-                <Heading type="h2">Filters</Heading>
-                <Button variant="outlined" onClick={handleClearAll}>
-                    Clear all filters
-                </Button>
-            </div>
+        <>
+            <Modal className="lg:hidden">
+                <Modal.Open>
+                    <Button>
+                        <FontAwesomeIcon icon={faFilter} />
+                        <span className="ml-2">Filter</span>
+                    </Button>
+                </Modal.Open>
+                <Modal.Window>
+                    <div className="grid gap-4">{getFilters()}</div>
+                </Modal.Window>
+            </Modal>
 
-            <div className="flex flex-col gap-4">{children}</div>
-        </div>
+            <section className="hidden lg:grid lg:gap-4">
+                <div className="text-right">
+                    <Button variant="outlined" onClick={handleClearAll}>
+                        Clear all filters
+                    </Button>
+                </div>
+                {getFilters()}
+            </section>
+        </>
+    )
+}
+
+function getFilters() {
+    return (
+        <>
+            <FormControl label="Type">
+                <FilterType />
+            </FormControl>
+            <FormControl label="Breed">
+                <FilterBreed />
+            </FormControl>
+            <FormControl label="Age">
+                <FilterSelect
+                    filterField="age"
+                    options={age}
+                    placeholder="Select age..."
+                    isMulti
+                />
+            </FormControl>
+            <FormControl label="Size">
+                <FilterSelect
+                    filterField="size"
+                    options={sizes}
+                    placeholder="Select size..."
+                    isMulti
+                />
+            </FormControl>
+            <FormControl label="Gender">
+                <FilterSelect
+                    filterField="gender"
+                    options={gender}
+                    placeholder="Select gender..."
+                    isMulti
+                />
+            </FormControl>
+        </>
     )
 }
 

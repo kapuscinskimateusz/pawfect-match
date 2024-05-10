@@ -65,21 +65,23 @@ function Window(props: { children: ReactNode }) {
         createPortal(
             <div
                 className={[
-                    'fixed inset-0 py-4 backdrop-blur-sm backdrop-brightness-50',
+                    'fixed inset-0 backdrop-blur-sm backdrop-brightness-50',
                     className,
                 ].join(' ')}
             >
                 <div
                     ref={windowRef}
-                    className="mx-auto max-w-md rounded-md bg-white"
+                    className="relative flex h-full flex-col bg-white pt-20"
                 >
-                    <div className="flex h-20 items-center justify-end px-4 shadow">
+                    <div className="absolute inset-x-0 top-0 flex h-20 items-center justify-end bg-white px-4 shadow">
                         <IconButton onClick={handleClose}>
                             <FontAwesomeIcon icon={faClose} />
                         </IconButton>
                     </div>
 
-                    <div className="p-4">{children}</div>
+                    <div className="flex-grow overflow-y-auto py-1">
+                        <div className="p-4">{children}</div>
+                    </div>
                 </div>
             </div>,
             document.body
